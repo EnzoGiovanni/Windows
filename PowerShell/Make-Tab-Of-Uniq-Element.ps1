@@ -5,14 +5,14 @@ $Text-File = "Chemin\FileName.ext"
 
 $Lines = Get-Content $Text-File
 
-" déclaration du tableau dynamique
-$idPM = @()
+# déclaration du tableau dynamique
+$Elt = @()
 
-#pour chaque ligne, sélection de l'émément à traiter
+# pour chaque ligne, sélection de l'émément à traiter
 ForEach ($line in $Lines)
 {
-    $idPM+=$line.Substring(118,7)  
+    $Elt+=$line.Substring(118,7)  
 }
 
-#dédoublonnage
-$idPM = $idPM | Sort-object | Get-Unique
+# ordonnancement puis dédoublonnage
+$Elt = $Elt | Sort-object | Get-Unique
