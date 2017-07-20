@@ -1,5 +1,5 @@
-# à partir d'un fichier text,
-# création d'une tableau d'élément unique
+# à partir d'un fichier texte,
+# création d'un tableau d'élément unique
 
 $Text-File = "Chemin\FileName.ext"
 
