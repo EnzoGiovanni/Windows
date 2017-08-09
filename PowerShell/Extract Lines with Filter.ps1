@@ -2,7 +2,7 @@
 
 # depuis un fichier texte d'entrée,
 # filtre des lignes avec une RegEx,
-" puis envoie du résultat dans un fichier de sorti
+# puis envoie du résultat dans un fichier de sorti
 
 
 $FileIn = "chemin\FileIn.txt"
