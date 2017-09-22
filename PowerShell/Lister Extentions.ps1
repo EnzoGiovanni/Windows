@@ -2,6 +2,5 @@
 
 $REP = ""
 
-$Exts = Get-ChildItem $REP -Recurse -Force -File -exclude *.jpg, *.JPG, *.jpeg, *.Rw2 |Select-Object -Property Extension
+$Exts = Get-ChildItem -Force -Recurse -LiteralPath $Rep | where {($_.Attributes -ne 'Directory')} | Select-Object -Property Extension | Sort-Object -Property Extension -Unique
 
-$Exts  | Sort-Object Extension | Set-Content "C:\Users\Olivier\Downloads\Extentions.txt"
