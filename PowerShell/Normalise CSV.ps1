@@ -1,6 +1,5 @@
 #Normalisation d'un CSV
 
-
 $Rep = (Get-Item env:\USERPROFILE).value + "\Downloads\"
 $FileIn = $Rep + "FichierIn.csv"
 $FileOut = $Rep + "fichierOut.csv"
