@@ -12,7 +12,7 @@ $RegEx = " ??? "
 
 ####################################################################################################################################
 $fluxs = Get-ChildItem -LiteralPath $Rep | where {($_.Attributes -ne 'Directory')  -and ($_.Name -Like $FileName) } | sort-Object
-If ($FileOut -ne $null) {Remove-Item $FileOut}
+If (Test-Path -Path $FileOut) {Remove-Item $FileOut}
 ForEach ($Flux In $fluxs)
 {
     $Ligne = get-content ($Rep + $Flux) | where {$_  -match $RegEx}
