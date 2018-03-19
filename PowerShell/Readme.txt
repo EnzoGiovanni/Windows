@@ -7,6 +7,8 @@ https://kevinmarquette.github.io/2017-03-18-Powershell-reading-and-saving-data-t
 FileInfo classe :
 https://msdn.microsoft.com/fr-fr/library/system.io.fileinfo(v=vs.110).aspx
 
+Traitement parallel
+https://github.com/nightroman/SplitPipeline
 
 Variables automatiques
 Variable	Description
