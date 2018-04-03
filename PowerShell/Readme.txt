@@ -10,6 +10,10 @@ https://msdn.microsoft.com/fr-fr/library/system.io.fileinfo(v=vs.110).aspx
 Traitement parallel
 https://github.com/nightroman/SplitPipeline
 
+MultiThreading
+https://www.codeproject.com/Tips/895840/Multi-Threaded-PowerShell-Cookbook
+
+
 Variables automatiques
 Variable	Description
 $$	          Dernier jeton de la ligne de commande précédente
