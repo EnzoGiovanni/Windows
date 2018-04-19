@@ -1,19 +1,11 @@
-$logLocation = "C:\logs\"
+$File = "C:\Users\X119197\Downloads\essai"
 
-$gci = Get-ChildItem -Path $logLocation -Filter '*.log'
+Write-Host "Lecture Fichier"
 
-Foreach ($i in $gci)
-{
-    $reader = [System.IO.File]::OpenText($($i.FullName))
-
-    while (!($reader.EndOfStream))
-    {
-        $line = $reader.ReadLine()
-        # Perform action on each line of the log here
-    }
-
-    $reader.Close()
-}
+$reader = New-Object System.IO.StreamReader($File)
+$Ligne = $reader.ReadLine()
+$Ligne = $reader.ReadLine()
+$reader.Close()
 
 # Source :
 # https://community.spiceworks.com/topic/962065-powershell-get-content-alternative
