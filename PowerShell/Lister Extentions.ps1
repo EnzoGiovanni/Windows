@@ -2,8 +2,9 @@
 
 $REP = ""
 
-$Exts = Get-ChildItem -Force -Recurse -LiteralPath $Rep | where {($_.Attributes -ne 'Directory')} | Select-Object -Property Extension | Sort-Object -Property Extension -Unique
-
+$Exts = Gci -Force -Recurse -Path $Rep | ?{($_.Attributes -ne 'Directory')} `
+                                       | Select -Property Extension `
+                                       | Sort -Property Extension -Unique
 <#
 
  Select-Object -Property name
