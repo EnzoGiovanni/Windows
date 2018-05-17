@@ -13,6 +13,8 @@ https://github.com/nightroman/SplitPipeline
 MultiThreading
 https://www.codeproject.com/Tips/895840/Multi-Threaded-PowerShell-Cookbook
 
+Liste les variables environnements :
+Dir env:\
 
 Variables automatiques
 Variable	Description
