@@ -1,6 +1,6 @@
 #Making a Black list domain for UnBound
 Clear-Host
-
+get-date
 ###################################################################################################################
 $File = "$env:USERPROFILE\Downloads\BlackListDomain.conf"
 $TMP = "$env:USERPROFILE\Downloads\temp.conf"
@@ -60,26 +60,32 @@ If(Test-Path "$env:USERPROFILE\Downloads\AdZGuardFilter.txt")
 
 Remove-Item $TMP
 ###################################################################################################################
-Write-Host 'Cleaning'
-$Lignes = Gc $File | Sort -Unique | If($_ -Like "#*"){$_.Remove(0, 1)} Else {$_}
-$Lignes | %{
-                $Elts = $_.Split('.');
-                If($Elts[0] -Like "WWW*")
-                    {$Elts[1..$Elts.Count] -join(".")}
-                Else
-                    {$Elts[0..$Elts.Count] -join(".")};
-            } `
-         | Sort -Unique `
-         | Sc $File
+$Lignes = Gc $File | Sort -Unique
+Write-Host 'Cleaning 1'
+$Lignes = $Lignes | %{If($_ -Like "#*"){$_.Remove(0, 1)} Else {$_}}
+
+Write-Host 'Cleaning 2'
+$Lignes = $Lignes | %{
+                        $Elts = $_.Split('.');
+                        If($Elts[0] -Like "WWW*")
+                        {$Elts[1..$Elts.Count] -join(".")}
+                        Else
+                            {$Elts[0..$Elts.Count] -join(".")};
+                      } `
+                  | Sort -Unique
+
+Write-Host 'Cleaning 3'
+$Lignes = Gc $File | %{If($_ -Like ".*"){$_.Remove(0, 1)} Else {$_}} | Sort -Unique
 
 ###################################################################################################################
 Write-Host 'Filtering'         
-$Lignes = Gc $File | ?{$WhtLst -notcontains $_} | %{'local-zone: "' + $_ + '" always_nxdomain'}
+$Lignes = $Lignes | ?{$WhtLst -notcontains $_}
+$Lignes = $Lignes | %{'local-zone: "' + $_ + '" always_nxdomain'}
 $Lignes.Count
 $Lignes | Sc $File
 
 ###################################################################################################################
-#Convert To Unix File Format
+Write-Host 'Convert To Unix File Format'
 Gci $File | %{
   # get the contents and replace line breaks by U+000A
   $contents = [IO.File]::ReadAllText($_) -replace "`r`n?", "`n"
@@ -89,5 +95,6 @@ Gci $File | %{
   [IO.File]::WriteAllText($_, $contents, $utf8)
 }
 
+get-date
 
-Remove-variable -name Lignes, Elts
+Remove-variable -name Lignes, Elts, contents, utf8, WhtLst
