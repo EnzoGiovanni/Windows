@@ -16,6 +16,9 @@ https://github.com/nightroman/SplitPipeline
 MultiThreading
 https://www.codeproject.com/Tips/895840/Multi-Threaded-PowerShell-Cookbook
 
+Fichier et flux de données E/S :
+https://docs.microsoft.com/fr-fr/dotnet/standard/io/index
+
 variables environnements :
 les lister : Dir env:\
 les utiliser : $env:username
