@@ -7,7 +7,7 @@ $reader = New-Object System.IO.StreamReader($File)
 Do {
   $Ligne = $reader.ReadLine() #lit la ligne suivante
 }
-While (!($reader.EndOfStream)) Lit tant qu'on n'a pas atteint la dernièrre ligne
+While (!($reader.EndOfStream)) #Lit tant qu'on n'a pas atteint la dernièrre ligne
 $reader.Close()
 
 # Source :
