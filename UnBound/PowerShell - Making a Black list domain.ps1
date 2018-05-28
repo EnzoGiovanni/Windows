@@ -5,70 +5,84 @@ get-date
 $File = "$env:USERPROFILE\Downloads\BlackListDomain.conf"
 $TMP = "$env:USERPROFILE\Downloads\temp.conf"
 
-$WhtLst = @(
-“mine.nu”,
-”1hosts.cf”,
-"hostsfile.org",
-"adzhosts.fr"
-)
-$WhtLst = $WhtLst | Sort -Unique
+###################################################################################################################
+If(Test-Path $File) {Remove-Item $File}
 
 ###################################################################################################################
+$WhtLst = @()
+
+$reader = New-Object System.IO.StreamReader("$env:USERPROFILE\Downloads\WhiteList.dns")
+Do
+{
+  $WhtLst+= $reader.ReadLine()
+}
+While (!($reader.EndOfStream))
+$reader.Close()
+$WhtLst = $WhtLst | Sort -Unique
+
+
+###################################################################################################################
+<#
 Write-Host 'Start from Old List'
 $Lignes = Gc "$env:ProgramFiles\Unbound\BlackListDomain.conf"
 $Lignes.count;
 $Lignes | % {$_.Remove(0, 13).Split('" ')[0]} | Sc $File
+#>
 
 ###################################################################################################################
-Write-Host 'Updadating with host sources'
+Write-Host 'Updating with host sources'
 $url = 'http://1hosts.cf/'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Sort -Unique | Ac $File
+Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Ac $File
 
-
+<#
 $url = 'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Sort -Unique | Ac $File
+Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Ac $File
 
 
 $url = 'http://www.hostsfile.org/Downloads/hosts.txt'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(127.0.0.1)"} | %{$_.Remove(0, 12).Trim()} | Sort -Unique | Ac $File
+Gc $TMP | ?{$_ -Match "^(127.0.0.1)"} | %{$_.Remove(0, 12).Trim()} | Ac $File
 
 
 $url = 'http://hostsfile.mine.nu/hosts0.txt'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
+Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Ac $File
+#>
+
+$url = 'https://adzhosts.fr/hosts/adzhosts-mac-linux.txt'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$page = Invoke-WebRequest -Uri $url
+$page.RawContent | Sc $TMP
 Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Sort -Unique | Ac $File
 
-
-#$url = 'https://adzhosts.fr/hosts/AdZGuardFilter.txt'
-#$page = Invoke-WebRequest -Uri $url
-#$page.RawContent | Sc $TMP
-#Gc $TMP | ?{$_ -Match "^(||)"} | %{$_.Remove(0, 3).Trim()} | Sort -Unique | Ac $File
-
 ###################################################################################################################
-Write-Host 'Updadating with local sources'
+<#
+Write-Host 'Updating with local sources'
 If(Test-Path "$env:USERPROFILE\Downloads\liste.txt")
-    {Gc "$env:USERPROFILE\Downloads\liste.txt" | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Sort -Unique | Ac $File}
-
+    {Gc "$env:USERPROFILE\Downloads\liste.txt" | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Ac $File}
+<#
 If(Test-Path "$env:USERPROFILE\Downloads\AdZGuardFilter.txt")
-    {Gc "$env:USERPROFILE\Downloads\AdZGuardFilter.txt" | ?{$_ -Like "||*"} | %{$_.Remove(0, 3).Trim()} | Sort -Unique | Ac $File}
-
+    {Gc "$env:USERPROFILE\Downloads\AdZGuardFilter.txt" | ?{$_ -Like "||*"} | %{$_.Remove(0, 3).Trim()} | Ac $File}
+#>
 Remove-Item $TMP
 ###################################################################################################################
-$Lignes = Gc $File | Sort -Unique
+Gc $File | Sort -Unique | Sc $File
+<#
 Write-Host 'Cleaning 1'
 $Lignes = $Lignes | %{If($_ -Like "#*"){$_.Remove(0, 1)} Else {$_}}
 
+
 Write-Host 'Cleaning 2'
 $Lignes = $Lignes | %{
-                        $Elts = $_.Split('.');
+                        $Elts = $_.Split(".");
                         If($Elts[0] -Like "WWW*")
-                        {$Elts[1..$Elts.Count] -join(".")}
+                            {$Elts[1..$Elts.Count] -join(".")}
                         Else
                             {$Elts[0..$Elts.Count] -join(".")};
                       } `
@@ -76,10 +90,10 @@ $Lignes = $Lignes | %{
 
 Write-Host 'Cleaning 3'
 $Lignes = Gc $File | %{If($_ -Like ".*"){$_.Remove(0, 1)} Else {$_}} | Sort -Unique
-
+#>
 ###################################################################################################################
 Write-Host 'Filtering'         
-$Lignes = $Lignes | ?{$WhtLst -notcontains $_}
+$Lignes = Gc $File | ?{$WhtLst -NotContains $_}
 $Lignes = $Lignes | %{'local-zone: "' + $_ + '" always_nxdomain'}
 $Lignes.Count
 $Lignes | Sc $File
@@ -97,4 +111,4 @@ Gci $File | %{
 
 get-date
 
-Remove-variable -name Lignes, Elts, contents, utf8, WhtLst
+Remove-variable -name Lignes, contents, utf8, WhtLst
