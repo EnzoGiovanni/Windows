@@ -1,14 +1,16 @@
-$File = "C:\Users\X119197\Downloads\essai"
+$reader = New-Object System.IO.StreamReader($FileIN)
+$writer = New-Object System.IO.StreamWriter($FileOUT)
 
-Write-Host "Lecture Fichier"
-
-$reader = New-Object System.IO.StreamReader($File)
 #Lecture du fichier ligne par ligne
-Do {
-  $Ligne = $reader.ReadLine() #lit la ligne suivante
+Do
+{
+  $Ligne = $reader.ReadLine()
+  $writer.WriteLine($Ligne)
 }
 While (!($reader.EndOfStream)) #Lit tant qu'on n'a pas atteint la dernièrre ligne
+
 $reader.Close()
+$Writer.Close()
 
 # Source :
 # https://community.spiceworks.com/topic/962065-powershell-get-content-alternative
@@ -18,3 +20,6 @@ $reader.Close()
 # 
 # StreamReader Class :
 # https://msdn.microsoft.com/en-us/library/system.io.streamreader(v=vs.110).aspx
+
+# StreamWriter Class :
+# https://msdn.microsoft.com/fr-fr/library/system.io.streamwriter(v=vs.110).aspx
