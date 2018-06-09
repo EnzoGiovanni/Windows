@@ -9,14 +9,10 @@ $TMP = "$env:USERPROFILE\Downloads\temp.conf"
 If(Test-Path $File) {Remove-Item $File}
 
 ###################################################################################################################
+# Chargement de la White liste
 $WhtLst = @()
-
-$reader = New-Object System.IO.StreamReader("$env:USERPROFILE\Downloads\WhiteList.dns")
-Do
-{
-  $WhtLst+= $reader.ReadLine()
-}
-While (!($reader.EndOfStream))
+$reader = New-Object System.IO.StreamReader("C:\Users\Olivier\Synchro NAS\IT\PowerShell\WhiteList.dns")
+Do {$WhtLst+= $reader.ReadLine()} While (!($reader.EndOfStream))
 $reader.Close()
 $WhtLst = $WhtLst | Sort -Unique
 
@@ -109,6 +105,15 @@ Gci $File | %{
   [IO.File]::WriteAllText($_, $contents, $utf8)
 }
 
+###################################################################################################################
+Write-Host 'copie BlackListDomain.conf to UnBound Directory'
+Copy-Item "$env:USERPROFILE\Downloads\BlackListDomain.conf" -Destination "C:\Program Files\Unbound"
+
+Write-Host 'Rdémarrer le service UnBound'
+Get-Service -name unbound | Restart-Service
+Get-Service -name unbound
+
+###################################################################################################################
 get-date
 
 Remove-variable -name Lignes, contents, utf8, WhtLst
