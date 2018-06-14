@@ -37,6 +37,7 @@ https://ss64.com/ps/syntax-datatypes.html
  [byte]      An 8-bit unsigned character
 
  [int]       32-bit signed integer
+ [uint32]    32-bit UnSigned integer
  [long]      64-bit signed integer
  [bool]      Boolean True/False value
 
