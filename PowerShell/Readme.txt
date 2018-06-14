@@ -23,7 +23,12 @@ variables environnements :
 les lister : Dir env:\
 les utiliser : $env:username
 
-
+Converstions :
+https://www.oreilly.com/library/view/windows-powershell-cookbook/9780596528492/ch06s07.html
+convert a number into its hexadecimal representation :
+Use the formatting operator : "{0:X4}" -f 1234
+Use the [Convert] class : [Convert]::ToString(1234, 16)
+ 
 Data Type :
 https://ss64.com/ps/syntax-datatypes.html
 
