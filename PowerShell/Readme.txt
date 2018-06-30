@@ -24,6 +24,9 @@ variables environnements :
 les lister : Dir env:\
 les utiliser : $env:username
 
+#version de PowerShell
+$PsVersionTable
+
 Convertions :
 https://www.oreilly.com/library/view/windows-powershell-cookbook/9780596528492/ch06s07.html
 convert a number into its hexadecimal representation :
