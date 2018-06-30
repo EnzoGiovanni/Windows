@@ -3,7 +3,7 @@
 Clear-Host
 
 ##############################################################
-$FileToSort = "C:\Users\X119197\Downloads\VF V2.5.6.2\2 opé\HFLFF01M.HFLAF01M.TRANSAC.BAN_DA.D291217.PRET"
+$FileToSort = ""
 
 ##############################################################
 $hs = new-object System.Collections.Generic.HashSet[string]
