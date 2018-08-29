@@ -18,18 +18,21 @@ $WhtLst = $WhtLst | Sort -Unique
 
 
 ###################################################################################################################
-Write-Host 'Updating with 1hosts.cf'
-$url = 'http://1hosts.cf/'
-$page = Invoke-WebRequest -Uri $url
-$page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Ac $File
-
-Write-Host 'Updating with adzhosts.fr'
-$url = 'https://adzhosts.eu/hosts/adzhosts-mac-linux.txt'
+Write-Host 'Updating with https://hosts-file.net/download/hosts.txt'
+$url = 'https://hosts-file.net/download/hosts.txt'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(0.0.0.0)"} | %{$_.Remove(0, 8).Trim()} | Sort -Unique | Ac $File
+Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Sort -Unique | Ac $File
+Remove-Item $TMP
+
+Write-Host 'Updating with http://1hosts.cf/'
+$url = 'http://1hosts.cf/'
+$page = Invoke-WebRequest -Uri $url
+$page.RawContent | Sc $TMP
+Gc $TMP | ?{$_ -Match "^(0.0.0.0).*$"} | %{$_.Remove(0, 8).Trim()} | Ac $File
+
+
 
 
 Remove-Item $TMP
