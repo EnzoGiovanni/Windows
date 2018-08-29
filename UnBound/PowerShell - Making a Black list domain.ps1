@@ -24,12 +24,15 @@ $url = 'https://hosts-file.net/download/hosts.txt'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
 Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Ac $File
+Remove-Item $TMP
 
 Write-Host 'Updating with http://1hosts.cf/'
 $url = 'http://1hosts.cf/'
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
 Gc $TMP | ?{$_ -Match "^(0.0.0.0).*$"} | %{$_.Remove(0, 8).Trim()} | Ac $File
+Remove-Item $TMP
+
 
 ###################################################################################################################
 Write-Host 'tri unique' 
