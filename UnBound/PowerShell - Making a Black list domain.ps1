@@ -23,8 +23,7 @@ $url = 'https://hosts-file.net/download/hosts.txt'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
-Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Sort -Unique | Ac $File
-Remove-Item $TMP
+Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Ac $File
 
 Write-Host 'Updating with http://1hosts.cf/'
 $url = 'http://1hosts.cf/'
@@ -32,20 +31,15 @@ $page = Invoke-WebRequest -Uri $url
 $page.RawContent | Sc $TMP
 Gc $TMP | ?{$_ -Match "^(0.0.0.0).*$"} | %{$_.Remove(0, 8).Trim()} | Ac $File
 
-
-
-
-Remove-Item $TMP
-
 ###################################################################################################################
+Write-Host 'tri unique' 
 Gc $File | Sort -Unique | Sc $File
 
 ###################################################################################################################
 Write-Host 'Filtering'         
-$Lignes = Gc $File | ?{$WhtLst -NotContains $_}
-$Lignes = $Lignes | %{'local-zone: "' + $_ + '" always_nxdomain'}
+$Lignes = Gc $File
+$Lignes | ?{$WhtLst -NotContains $_} | %{'local-zone: "' + $_ + '" always_nxdomain'} | Sc $File
 $Lignes.Count
-$Lignes | Sc $File
 
 ###################################################################################################################
 Write-Host 'Convert To Unix File Format'
