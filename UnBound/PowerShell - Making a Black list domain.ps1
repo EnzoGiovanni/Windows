@@ -1,6 +1,7 @@
 #Making a Black list domain for UnBound
 Clear-Host
 get-date
+Write-Host ""
 ###################################################################################################################
 $File = "$env:USERPROFILE\Downloads\BlackListDomain.conf"
 $TMP = "$env:USERPROFILE\Downloads\temp.conf"
@@ -26,6 +27,14 @@ $page.RawContent | Sc $TMP
 Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Ac $File
 Remove-Item $TMP
 
+Write-Host 'Updating with https://hosts-file.net/hphosts-partial.txt'
+$url = 'https://hosts-file.net/hphosts-partial.txt'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$page = Invoke-WebRequest -Uri $url
+$page.RawContent | Sc $TMP
+Gc $TMP | ?{$_ -Match "^(127.0.0.1).*$"} | %{$_.Remove(0, 10).Trim()} | Ac $File
+Remove-Item $TMP
+
 Write-Host 'Updating with http://1hosts.cf/'
 $url = 'http://1hosts.cf/'
 $page = Invoke-WebRequest -Uri $url
@@ -35,16 +44,21 @@ Remove-Item $TMP
 
 
 ###################################################################################################################
+Write-Host ""
 Write-Host 'tri unique' 
 Gc $File | Sort -Unique | Sc $File
 
 ###################################################################################################################
+Write-Host ""
 Write-Host 'Filtering'         
 $Lignes = Gc $File
 $Lignes | ?{$WhtLst -NotContains $_} | %{'local-zone: "' + $_ + '" always_nxdomain'} | Sc $File
+
+Write-Host ""
 $Lignes.Count
 
 ###################################################################################################################
+Write-Host ""
 Write-Host 'Convert To Unix File Format'
 Gci $File | %{
   # get the contents and replace line breaks by U+000A
@@ -56,9 +70,11 @@ Gci $File | %{
 }
 
 ###################################################################################################################
+Write-Host ""
 Write-Host 'copie BlackListDomain.conf to UnBound Directory'
 Copy-Item "$env:USERPROFILE\Downloads\BlackListDomain.conf" -Destination "C:\Program Files\Unbound\"
 
+Write-Host ""
 Write-Host 'Rdémarrer le service UnBound'
 Get-Service -name unbound | Restart-Service
 Get-Service -name unbound
