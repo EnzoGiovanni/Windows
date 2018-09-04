@@ -1,6 +1,7 @@
 # source From
 # https://github.com/sushihangover/SushiHangover-PowerShell/blob/master/modules/SushiHangover-Tools/GZip.ps1
 
+################################################################################################################################
 Function Touch-File
 {
     $file = $args[0]
@@ -11,6 +12,7 @@ Function Touch-File
         {echo $null > $file}
 }
 
+################################################################################################################################
 function Compress-GZip {
     <#
     .NOTES
@@ -88,6 +90,8 @@ function Compress-GZip {
         }
     }
 }
+
+################################################################################################################################
 function Expand-GZip {
     <#
     .NOTES
