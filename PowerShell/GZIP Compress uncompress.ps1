@@ -1,3 +1,6 @@
+# source From
+# https://github.com/sushihangover/SushiHangover-PowerShell/blob/master/modules/SushiHangover-Tools/GZip.ps1
+
 Function Touch-File
 {
     $file = $args[0]
