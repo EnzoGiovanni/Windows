@@ -11,19 +11,6 @@ Function Touch-File
         {echo $null > $file}
 }
 
-<#
-.NOTES
-    Copyright 2013 Robert Nees
-    Licensed under the Apache License, Version 2.0 (the "License");
-.SYNOPSIS
-    GZip Compress and DeCompress
-.DESCRIPTION
-    A 8k buffered GZip (.gz) Compress and DeCompress functions that support pipelined input
-.LINK
-    http://sushihangover.blogspot.com
-.LINK
-    https://github.com/sushihangover
-#>
 function Compress-GZip {
     <#
     .NOTES
