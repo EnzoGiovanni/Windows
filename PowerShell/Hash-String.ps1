@@ -1,6 +1,6 @@
 function Hash($textToHash)
 {
-    $hasher = new-object System.Security.Cryptography.SHA256Managed
+    $hasher = new-object System.Security.Cryptography.SHA512Managed
     $toHash = [System.Text.Encoding]::UTF8.GetBytes($textToHash)
     $hashByteArray = $hasher.ComputeHash($toHash)
     foreach($byte in $hashByteArray)
