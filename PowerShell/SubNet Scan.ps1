@@ -1,3 +1,8 @@
+<#
+    Source :
+    https://gallery.technet.microsoft.com/scriptcenter/SubNet-Scan-dad0311f
+#>
+
 Function Get-SubNetItems 
 { 
 <#  
