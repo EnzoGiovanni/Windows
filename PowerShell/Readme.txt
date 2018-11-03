@@ -79,3 +79,6 @@ $PSHome	      Emplacement d’installation de Windows PowerShell
 $profile	    Profil standard (peut ne pas être présent)
 $StackTrace	  Dernière exception interceptée par Windows PowerShell
 $Switch	      Énumérateur d’une instruction switch
+
+Liste d'exemples :
+https://gallery.technet.microsoft.com/scriptcenter
