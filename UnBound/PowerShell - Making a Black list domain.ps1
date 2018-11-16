@@ -12,7 +12,7 @@ If(Test-Path $File) {Remove-Item $File}
 ###################################################################################################################
 # Chargement de la White liste
 $WhtLst = @()
-$reader = New-Object System.IO.StreamReader("C:\Users\Olivier\Synchro NAS\IT\PowerShell\WhiteList.dns")
+$reader = New-Object System.IO.StreamReader("$env:USERPROFILE\Synchro NAS\IT\PowerShell\WhiteList.dns")
 Do {$WhtLst+= $reader.ReadLine()} While (!($reader.EndOfStream))
 $reader.Close()
 $WhtLst = $WhtLst | Sort -Unique
