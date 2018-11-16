@@ -1,6 +1,9 @@
 $reader = New-Object System.IO.StreamReader($FileIN)
 $writer = New-Object System.IO.StreamWriter($FileOUT)
 
+$Liste = new-object System.Collections.Generic.HashSet[string]
+$ListeEnumere = new-object system.collections.generic.List[string] $Liste; #Pourtrier et ordonner
+
 #Lecture du fichier ligne par ligne
 Do
 {
