@@ -37,6 +37,7 @@ espace de noms System.Collections.Generic
 https://msdn.microsoft.com/fr-fr/library/system.collections.generic(v=vs.110).aspx
     List<T> classe : https://msdn.microsoft.com/fr-fr/library/6sh2ey19(v=vs.110).aspx
     HashSet<T> classe : https://msdn.microsoft.com/fr-fr/library/6sh2ey19(v=vs.110).aspx
+        => n'enregistre pas de doublon
 
 Data Type :
 https://ss64.com/ps/syntax-datatypes.html
