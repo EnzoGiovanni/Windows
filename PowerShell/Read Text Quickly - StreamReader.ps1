@@ -10,7 +10,7 @@ Do
   $Ligne = $reader.ReadLine()
   $writer.WriteLine($Ligne)
 }
-While (!($reader.EndOfStream)) #Lit tant qu'on n'a pas atteint la dernièrre ligne
+While (!($reader.EndOfStream)) #Lit tant qu'on n'a pas atteint la dernière ligne
 
 $reader.Close()
 $Writer.Close()
