@@ -1,4 +1,4 @@
-# ouvrir une session du navigateur isolée,
+# ouvrir une session du navigateur EDGE isolée,
 # à chaque éxécution créer un repertoire de travail temporaire unique
 # puis lance edge avec ce repertoire de travail dans une nouvelle fenêtre privée du navigateur,
 # ce qui a pour effet de créer une nouvelle instance d'exécution de edge (nouveau PID)
